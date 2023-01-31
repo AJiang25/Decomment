@@ -1,0 +1,40 @@
+------------------------------------------------------------------------
+DFA for Decomment
+------------------------------------------------------------------------
+NORMAL (accept) <-- the start state
+  ": IN_STRING (print char)
+  ': IN_CHAR (print char)
+  /: MAYBE_IN_COMMENT
+  other: NORMAL (print char)
+
+IN_STRING (accept)
+  ": NORMAL (print char)
+  \: ESCAPE_IN_STRING (print char)
+  other: IN_STRING (print char)
+
+ESCAPE_IN_STRING (accept)
+  other: IN_STRING (print char)
+
+IN_CHAR (accept)
+  ': NORMAL (print char)
+  \: ESCAPE_IN_CHAR (print char)
+  other: IN_CHAR (print char)
+
+ESCAPE_IN_CHAR (accept)
+  other: IN_CHAR (print char)
+
+MAYBE_IN_COMMENT (accept)
+  ": IN_STRING (print / and char)
+  ': IN_CHAR (print / and char)
+  /: MAYBE_IN_COMMENT (print /)
+  *: IN_COMMENT
+  other: NORMAL (print / and char)
+
+IN_COMMENT (reject)
+  *: MAYBE_EXITING_COMMENT
+  other: IN_COMMENT (print ONLY if newline)
+
+MAYBE_EXITING_COMMENT (reject)
+  /: NORMAL
+  *: MAYBE_EXITING_COMMENT
+  other: IN_COMMENT (print ONLY if newline)
