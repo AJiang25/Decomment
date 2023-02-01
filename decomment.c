@@ -60,10 +60,12 @@ int main(void) {
             state = maybeExitingComment(c);
         }
     }
-    counter = counter - last;
+    counter -= last;
+    /*addresses corner case of a false comment start*/
     if (state == MAYBE_IN_COMMENT) {
         putchar('/');
     }
+    /*addresses unterminated comment cases*/
     if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
         fprintf(stderr, "Error: line %d: unterminated comment\n", counter);
         return EXIT_FAILURE;
