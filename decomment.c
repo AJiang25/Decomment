@@ -30,10 +30,6 @@ int main(void) {
     int last = 0;
 
     while ((c = getchar()) != EOF) {
-        if (c == '\n') {
-            counter++;
-            last++;
-        }
         if (state == NORMAL) {
             state = Normal(c);
         }
@@ -58,6 +54,10 @@ int main(void) {
         }
         else if (state == MAYBE_EXITING_COMMENT) {
             state = maybeExitingComment(c);
+        }
+        if (c == '\n') {
+            counter++;
+            last++;
         }
     }
     counter -= last;
