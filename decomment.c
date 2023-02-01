@@ -32,6 +32,7 @@ int main(void) {
     while ((c = getchar()) != EOF) {
         if (c == '\n') {
             counter++;
+            last++;
         }
         if (state == NORMAL) {
             state = Normal(c);
@@ -53,14 +54,15 @@ int main(void) {
         }
         else if (state == IN_COMMENT) {
             state = inComment(c);
-            last = counter;
+            last = 0;
         }
         else if (state == MAYBE_EXITING_COMMENT) {
             state = maybeExitingComment(c);
         }
     }
+    counter = counter - last;
     if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
-        fprintf(stderr, "Error: line %d: unterminated comment\n", last);
+        fprintf(stderr, "Error: line %d: unterminated comment\n", counter);
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
