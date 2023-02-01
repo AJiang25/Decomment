@@ -115,24 +115,24 @@ enum STATE escapeChar(int c) {
 
 enum STATE maybeInComment(int c) {
     if (c == '\"') {
-        putchar('\\');
+        putchar('/');
         putchar(c);
         return IN_STRING;
     }
     else if (c == '\'') {
-        putchar('\\');
+        putchar('/');
         putchar(c);
         return IN_CHAR;
     }
     else if (c == '/') {
-        putchar('\\');
+        putchar(c);
         return MAYBE_IN_COMMENT;
     }
     else if (c == '*') {
         return IN_COMMENT;
     }
     else {
-        putchar('\\');
+        putchar('/');
         putchar(c);
         return NORMAL;
     }
