@@ -148,6 +148,7 @@ enum STATE maybeInComment(int c) {
         return MAYBE_IN_COMMENT;
     }
     else if (c == '*') {
+        putchar(' ');
         return IN_COMMENT;
     }
     else {
@@ -172,7 +173,6 @@ enum STATE inComment(int c) {
 /*Handles the MAYBE_EXITING_COMMENT state*/
 enum STATE maybeExitingComment(int c) {
     if (c == '/') {
-        putchar(' ');
         return NORMAL;
     }
     else if (c == '*') {
