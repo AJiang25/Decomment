@@ -7,8 +7,6 @@ enum STATE {
     NORMAL, IN_STRING, ESCAPE_IN_STRING, IN_CHAR, ESCAPE_IN_CHAR, 
     MAYBE_IN_COMMENT, IN_COMMENT, MAYBE_EXITING_COMMENT
 };
-/*The initial state of the program*/
-enum STATE state = NORMAL;
 
 /*Declares all the functions in this program*/
 enum STATE Normal(int c);
@@ -22,8 +20,19 @@ enum STATE maybeExitingComment(int c);
 
 /*Reads a character and moves between states*/
 int main(void) {
+    /*The initial state of the program*/
+    enum STATE state = NORMAL;
+    /* character variable */
     int c;
+    /* counts lines */
+    int counter = 0;
+    /* line number of the last time a comment began*/
+    int last = 0;
+
     while ((c = getchar()) != EOF) {
+        if (c == '\n') {
+            counter++;
+        }
         if (state == NORMAL) {
             state = Normal(c);
         }
@@ -44,12 +53,14 @@ int main(void) {
         }
         else if (state == IN_COMMENT) {
             state = inComment(c);
+            last = counter;
         }
         else if (state == MAYBE_EXITING_COMMENT) {
             state = maybeExitingComment(c);
         }
     }
     if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
+        fprintf(stderr, "Error: line %d: unterminated comment\n", last);
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
