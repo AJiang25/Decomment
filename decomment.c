@@ -23,7 +23,7 @@ enum STATE maybeExitingComment(int c);
 /*Reads a character and moves between states*/
 int main(void) {
     int c;
-    while ((char) (c = getchar()) != EOF) {
+    while (((char) (c = getchar())) != EOF) {
         if (state == NORMAL) {
             state = Normal(c);
         }
@@ -110,7 +110,7 @@ enum STATE Char(int c) {
 
 enum STATE escapeChar(int c) {
     putchar(c);
-    state = IN_CHAR;
+    return IN_CHAR;
 }
 
 enum STATE maybeInComment(int c) {
