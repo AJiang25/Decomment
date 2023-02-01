@@ -61,6 +61,9 @@ int main(void) {
         }
     }
     counter = counter - last;
+    if (state == MAYBE_IN_COMMENT) {
+        putchar(c);
+    }
     if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
         fprintf(stderr, "Error: line %d: unterminated comment\n", counter);
         return EXIT_FAILURE;
