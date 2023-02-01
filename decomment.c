@@ -151,6 +151,7 @@ enum STATE inComment(int c) {
 
 enum STATE maybeExitingComment(int c) {
     if (c == '/') {
+        putchar(' ');
         return NORMAL;
     }
     else if (c == '*') {
