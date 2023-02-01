@@ -96,7 +96,7 @@ enum STATE escapeString(int c) {
 enum STATE Char(int c) {
     if (c == '\'') {
         putchar(c);
-        return IN_CHAR;
+        return NORMAL;
     }
     else if (c == '\\') {
         putchar(c);
@@ -143,7 +143,7 @@ enum STATE inComment(int c) {
         return MAYBE_EXITING_COMMENT;
     else {
         if (c == '\n') {
-            putchar('\n');
+            putchar(c);
         }
         return IN_COMMENT;
     }
@@ -159,7 +159,7 @@ enum STATE maybeExitingComment(int c) {
     }
     else {
         if (c == '\n') {
-            putchar('\n');
+            putchar(c);
         }
         return IN_COMMENT;
     }
