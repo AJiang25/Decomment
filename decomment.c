@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 
 /*Enum of all possible states in the DFA*/
@@ -48,7 +49,10 @@ int main(void) {
             state = maybeExitingComment(c);
         }
     }
-    return 0;
+    if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
 }
 
 enum STATE Normal(int c) {
