@@ -80,7 +80,7 @@ enum STATE String(int c) {
     }
     else if (c == '\\') {
         putchar(c);
-        return IN_CHAR;
+        return ESCAPE_IN_STRING;
     }
     else {
         putchar(c);
