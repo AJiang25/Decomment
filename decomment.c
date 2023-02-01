@@ -60,7 +60,7 @@ int main(void) {
             last++;
         }
     }
-    counter -= last;
+    counter -= last + 1;
     /*addresses corner case of a false comment start*/
     if (state == MAYBE_IN_COMMENT) {
         putchar('/');
