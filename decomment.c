@@ -16,8 +16,8 @@ enum STATE String(int c);
 enum STATE escapeString(int c);
 enum STATE Char(int c);
 enum STATE escapeChar(int c);
-enum STATE maybeComment(int c);
-enum STATE Comment(int c);
+enum STATE maybeInComment(int c);
+enum STATE inComment(int c);
 enum STATE maybeExitingComment(int c);
 
 /*Reads a character and moves between states*/
@@ -40,10 +40,10 @@ int main(void) {
             state = escapeChar(c);
         }
         else if (state == MAYBE_IN_COMMENT) {
-            state = maybeComment(c);
+            state = maybeInComment(c);
         }
         else if (state == IN_COMMENT) {
-            state = Comment(c);
+            state = inComment(c);
         }
         else if (state == MAYBE_EXITING_COMMENT) {
             state = maybeExitingComment(c);
@@ -73,7 +73,7 @@ enum STATE Normal(int c) {
     }
 }
 
-enum STATE String (int c) {
+enum STATE String(int c) {
     if (c == '\"') {
         putchar(c);
         return NORMAL;
@@ -149,7 +149,7 @@ enum STATE inComment(int c) {
     }
 }
 
-enum STATE maybeExitingCommentState (int c) {
+enum STATE maybeExitingComment(int c) {
     if (c == '/') {
         putchar(' ');
         return NORMAL;
