@@ -23,7 +23,7 @@ enum STATE maybeExitingComment(int c);
 /*Reads a character and moves between states*/
 int main(void) {
     int c;
-    while (((char) (c = getchar())) != EOF) {
+    while ((c = getchar()) != EOF) {
         if (state == NORMAL) {
             state = Normal(c);
         }
