@@ -32,6 +32,7 @@ int main(void) {
     while ((c = getchar()) != EOF) {
         if (state == NORMAL) {
             state = Normal(c);
+            last = 0;
         }
         else if (state == IN_STRING) {
             state = String(c);
@@ -49,8 +50,7 @@ int main(void) {
             state = maybeInComment(c);
         }
         else if (state == IN_COMMENT) {
-            state = inComment(c);
-            last = 0;
+            state = inComment(c);   
         }
         else if (state == MAYBE_EXITING_COMMENT) {
             state = maybeExitingComment(c);
