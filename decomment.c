@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-/*Enum of all possible states in the DFA*/
+/*Enum of all states in the textual DFA*/
 enum STATE {
     NORMAL, IN_STRING, ESCAPE_IN_STRING, IN_CHAR, ESCAPE_IN_CHAR, 
     MAYBE_IN_COMMENT, IN_COMMENT, MAYBE_EXITING_COMMENT
@@ -22,11 +22,11 @@ enum STATE maybeExitingComment(int c);
 int main(void) {
     /*The initial state of the program*/
     enum STATE state = NORMAL;
-    /* character variable */
+    /*character variable*/
     int c;
-    /* counts lines */
+    /*counts lines*/
     int counter = 0;
-    /* line number of the last time a comment began*/
+    /*line number of the last time a comment began*/
     int last = 0;
 
     while ((c = getchar()) != EOF) {
@@ -68,6 +68,7 @@ int main(void) {
     return EXIT_SUCCESS;
 }
 
+/*Handles the NORMAL state*/
 enum STATE Normal(int c) {
     if ((char) c == '\"') {
         putchar(c);
@@ -86,6 +87,7 @@ enum STATE Normal(int c) {
     }
 }
 
+/*Handles the IN_STRING state*/
 enum STATE String(int c) {
     if (c == '\"') {
         putchar(c);
@@ -101,11 +103,13 @@ enum STATE String(int c) {
     }
 }
 
+/*Handles the ESCAPE_IN_STRING state*/
 enum STATE escapeString(int c) {
     putchar(c);
     return IN_STRING;
 }
 
+/*Handles the IN_CHAR state*/
 enum STATE Char(int c) {
     if (c == '\'') {
         putchar(c);
@@ -121,11 +125,13 @@ enum STATE Char(int c) {
     }
 }
 
+/*Handles the ESCAPE_IN_CHAR state*/
 enum STATE escapeChar(int c) {
     putchar(c);
     return IN_CHAR;
 }
 
+/*Handles the MAYBE_IN_COMMENT state*/
 enum STATE maybeInComment(int c) {
     if (c == '\"') {
         putchar('/');
@@ -151,6 +157,7 @@ enum STATE maybeInComment(int c) {
     }
 }
 
+/*Handles the IN_COMMENT state*/
 enum STATE inComment(int c) {
     if (c == '*') 
         return MAYBE_EXITING_COMMENT;
@@ -162,6 +169,7 @@ enum STATE inComment(int c) {
     }
 }
 
+/*Handles the MAYBE_EXITING_COMMENT state*/
 enum STATE maybeExitingComment(int c) {
     if (c == '/') {
         putchar(' ');
