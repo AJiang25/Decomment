@@ -8,63 +8,6 @@ enum State {
     MAYBE_IN_COMMENT, IN_COMMENT, MAYBE_EXITING_COMMENT
 };
 
-/* Reads text from stdin. For every character read, the program
-continuously moves through states until EOF, as outlined by the dfa.
-For every noncomment, the result is written to stdout*/
-int main(void) {
-    /* Uses the dfa approach. The initial state of the program */
-    enum State state = NORMAL;
-    /* character variable that maintains current DFA char*/
-    int c;
-    /* counts the total number of newlines */
-    int counter = 0;
-    /* tracks the line number of the last time a comment began */
-    int last = 0;
-
-    while ((c = getchar()) != EOF) {
-        if (state == NORMAL) {
-            state = Normal(c);
-            last = 0;
-        }
-        else if (state == IN_STRING) {
-            state = String(c);
-        }
-        else if (state == ESCAPE_IN_STRING) {
-            state = escapeString(c);
-        }
-        else if (state == IN_CHAR) {
-            state = Char(c);
-        }
-        else if (state == ESCAPE_IN_CHAR) {
-            state = escapeChar(c);
-        }
-        else if (state == MAYBE_IN_COMMENT) {
-            state = maybeInComment(c);
-        }
-        else if (state == IN_COMMENT) {
-            state = inComment(c);   
-        }
-        else if (state == MAYBE_EXITING_COMMENT) {
-            state = maybeExitingComment(c);
-        }
-        if (c == '\n') {
-            counter++;
-            last++;
-        }
-    }
-    counter = (counter - last)+ 1;
-    /* addresses corner case of a false comment start */
-    if (state == MAYBE_IN_COMMENT) {
-        putchar('/');
-    }
-    /* addresses unterminated comment cases */
-    if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
-        fprintf(stderr, "Error: line %d: unterminated comment\n", counter);
-        return EXIT_FAILURE;
-    }
-    return EXIT_SUCCESS;
-}
-
 /* Handles the NORMAL state of the dfa. c is the current dfa character.
 Writes c to stdout as specified by the dfa and then returns the next 
 state. */
@@ -197,4 +140,61 @@ enum State maybeExitingComment(int c) {
         }
         return IN_COMMENT;
     }
+}
+
+/* Reads text from stdin. For every character read, the program
+continuously moves through states until EOF, as outlined by the dfa.
+For every noncomment, the result is written to stdout*/
+int main(void) {
+    /* Uses the dfa approach. The initial state of the program */
+    enum State state = NORMAL;
+    /* character variable that maintains current DFA char*/
+    int c;
+    /* counts the total number of newlines */
+    int counter = 0;
+    /* tracks the line number of the last time a comment began */
+    int last = 0;
+
+    while ((c = getchar()) != EOF) {
+        if (state == NORMAL) {
+            state = Normal(c);
+            last = 0;
+        }
+        else if (state == IN_STRING) {
+            state = String(c);
+        }
+        else if (state == ESCAPE_IN_STRING) {
+            state = escapeString(c);
+        }
+        else if (state == IN_CHAR) {
+            state = Char(c);
+        }
+        else if (state == ESCAPE_IN_CHAR) {
+            state = escapeChar(c);
+        }
+        else if (state == MAYBE_IN_COMMENT) {
+            state = maybeInComment(c);
+        }
+        else if (state == IN_COMMENT) {
+            state = inComment(c);   
+        }
+        else if (state == MAYBE_EXITING_COMMENT) {
+            state = maybeExitingComment(c);
+        }
+        if (c == '\n') {
+            counter++;
+            last++;
+        }
+    }
+    counter = (counter - last)+ 1;
+    /* addresses corner case of a false comment start */
+    if (state == MAYBE_IN_COMMENT) {
+        putchar('/');
+    }
+    /* addresses unterminated comment cases */
+    if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
+        fprintf(stderr, "Error: line %d: unterminated comment\n", counter);
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
 }
