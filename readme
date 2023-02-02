@@ -3,7 +3,7 @@ Assignment 1 readme File
 ------------------------------------------------------------------------
 What is your name?
 
-
+Arnold Jiang
 
 ------------------------------------------------------------------------
 What authorized sources of information did you use to complete the
@@ -12,7 +12,29 @@ in the "Policies" web page (also available on armlab in the file
 ~cos217/AuthorizedSourcesList ) to this section of the readme file,
 and edit it as appropriate.
 
+The course's lectures: 1, 2, 3, 4, & 5
+The course's precepts: 1, 2, 3, 4, & 5
+The course's website.
+The course's textbooks.
+COS217 Lecture 2 Supplement
+The man pages on the armlab cluster.
 
+The course's current staff members outside of class time through 
+office hours.
+
+Donna's Monday Office Hours from 9 PM - 11 PM 
+(helped to understand when to putchar/print new line in DFA & the difference
+between using ''' and '\'' when coding in C)
+
+Nathan's Wednesday Office Hours from 6 PM - 9 PM
+(helped debug by fixing one error in which a space was printing after
+newlines when it needed to be reversed, and helped debug a logic error
+where my line counting variables (counter & last) were constantly one
+off)
+
+The course's current staff members outside of class time through Ed.
+Moretti (#25): helped provide the idea for using the counting variables
+called last for the purposes of tracking the last time a comment began
 
 ------------------------------------------------------------------------
 What unauthorized sources of information did you use to complete the
@@ -26,12 +48,13 @@ interaction, may additionally require the interaction being reported
 to the Committee on Discipline. Write "None" if you used no
 unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 What is your assessment of the assignment? Was it helpful? Was it fun?
 
-
+I thought of it as being very difficult, but very insightful in 
+essentially pushing me to learn C.
 
 ------------------------------------------------------------------------
 (optional) What information can you provide about your submission that

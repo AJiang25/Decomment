@@ -2,31 +2,23 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-/*Enum of all states in the textual DFA*/
-enum STATE {
+/* defines constants of all states in the textual DFA */
+enum State {
     NORMAL, IN_STRING, ESCAPE_IN_STRING, IN_CHAR, ESCAPE_IN_CHAR, 
     MAYBE_IN_COMMENT, IN_COMMENT, MAYBE_EXITING_COMMENT
 };
 
-/*Declares all the functions in this program*/
-enum STATE Normal(int c);
-enum STATE String(int c);
-enum STATE escapeString(int c);
-enum STATE Char(int c);
-enum STATE escapeChar(int c);
-enum STATE maybeInComment(int c);
-enum STATE inComment(int c);
-enum STATE maybeExitingComment(int c);
-
-/*Reads a character and moves between states*/
+/* Reads text from stdin. For every character read, the program
+continuously moves through states until EOF, as outlined by the dfa.
+For every noncomment, the result is written to stdout*/
 int main(void) {
-    /*The initial state of the program*/
-    enum STATE state = NORMAL;
-    /*character variable*/
+    /* Uses the dfa approach. The initial state of the program */
+    enum State state = NORMAL;
+    /* character variable that maintains current DFA char*/
     int c;
-    /*counts lines*/
+    /* counts the total number of newlines */
     int counter = 0;
-    /*line number of the last time a comment began*/
+    /* tracks the line number of the last time a comment began */
     int last = 0;
 
     while ((c = getchar()) != EOF) {
@@ -61,11 +53,11 @@ int main(void) {
         }
     }
     counter = (counter - last)+ 1;
-    /*addresses corner case of a false comment start*/
+    /* addresses corner case of a false comment start */
     if (state == MAYBE_IN_COMMENT) {
         putchar('/');
     }
-    /*addresses unterminated comment cases*/
+    /* addresses unterminated comment cases */
     if (state == IN_COMMENT || state == MAYBE_EXITING_COMMENT) {
         fprintf(stderr, "Error: line %d: unterminated comment\n", counter);
         return EXIT_FAILURE;
@@ -73,8 +65,10 @@ int main(void) {
     return EXIT_SUCCESS;
 }
 
-/*Handles the NORMAL state*/
-enum STATE Normal(int c) {
+/* Handles the NORMAL state of the dfa. c is the current dfa character.
+Writes c to stdout as specified by the dfa and then returns the next 
+state. */
+enum State Normal(int c) {
     if ((char) c == '\"') {
         putchar(c);
         return IN_STRING;
@@ -92,8 +86,10 @@ enum STATE Normal(int c) {
     }
 }
 
-/*Handles the IN_STRING state*/
-enum STATE String(int c) {
+/* Handles the IN_STRING state of the dfa. c is the current 
+dfa character. Writes c to stdout as specified by the dfa and 
+then returns the next state. */
+enum State String(int c) {
     if (c == '\"') {
         putchar(c);
         return NORMAL;
@@ -108,14 +104,18 @@ enum STATE String(int c) {
     }
 }
 
-/*Handles the ESCAPE_IN_STRING state*/
-enum STATE escapeString(int c) {
+/* Handles the ESCAPE_IN_STRING state of the dfa. c is the current 
+dfa character. Writes c to stdout and then returns the In_STRING 
+state as specificed by the dfa. */
+enum State escapeString(int c) {
     putchar(c);
     return IN_STRING;
 }
 
-/*Handles the IN_CHAR state*/
-enum STATE Char(int c) {
+/* Handles the IN_CHAR state of the dfa. c is the current 
+dfa character. Writes c to stdout and then returns the next 
+state as specificed by the dfa. */
+enum State Char(int c) {
     if (c == '\'') {
         putchar(c);
         return NORMAL;
@@ -130,14 +130,18 @@ enum STATE Char(int c) {
     }
 }
 
-/*Handles the ESCAPE_IN_CHAR state*/
-enum STATE escapeChar(int c) {
+/* Handles the ESCAPE_IN_CHAR state of the dfa. c is the current 
+dfa character. Writes c to stdout and then returns IN_CHAR as 
+specificed by the dfa. */
+enum State escapeChar(int c) {
     putchar(c);
     return IN_CHAR;
 }
 
-/*Handles the MAYBE_IN_COMMENT state*/
-enum STATE maybeInComment(int c) {
+/* Handles the MAYBE_IN_COMMENT state of the dfa. c is the current 
+dfa character. Writes c to stdout as specified by the dfa and 
+then returns the next state. */
+enum State maybeInComment(int c) {
     if (c == '\"') {
         putchar('/');
         putchar(c);
@@ -163,8 +167,10 @@ enum STATE maybeInComment(int c) {
     }
 }
 
-/*Handles the IN_COMMENT state*/
-enum STATE inComment(int c) {
+/* Handles the IN_COMMENT state of the dfa. c is the current 
+dfa character. Writes c to stdout as specified by the dfa and 
+then returns the next state. */
+enum State inComment(int c) {
     if (c == '*') 
         return MAYBE_EXITING_COMMENT;
     else {
@@ -175,8 +181,10 @@ enum STATE inComment(int c) {
     }
 }
 
-/*Handles the MAYBE_EXITING_COMMENT state*/
-enum STATE maybeExitingComment(int c) {
+/* Handles the MAYBE_EXITING_COMMENT state of the dfa. c is 
+the current dfa character. Writes c to stdout as specified 
+by the dfa and then returns the next state. */
+enum State maybeExitingComment(int c) {
     if (c == '/') {
         return NORMAL;
     }
