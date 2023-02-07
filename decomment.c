@@ -1,3 +1,8 @@
+/*-------------------------------------------------------------------*/
+/* decomment.c                                                       */
+/* Author: Arnold Jiang                                              */
+/*-------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -144,7 +149,8 @@ enum State maybeExitingComment(int c) {
 
 /* Reads text from stdin. For every character read, the program
 continuously moves through states until EOF, as outlined by the dfa.
-For every noncomment, the result is written to stdout*/
+For every noncomment, the result is written to stdout. Returns
+EXIT_FAILURE if in unterminated comment, else returns EXIT_SUCCESS. */
 int main(void) {
     /* Uses the dfa approach. The initial state of the program */
     enum State state = NORMAL;
