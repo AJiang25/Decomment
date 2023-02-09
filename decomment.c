@@ -152,9 +152,7 @@ continuously moves through states until EOF, as outlined by the dfa.
 For every noncomment, the result is written to stdout. Returns
 EXIT_FAILURE if in unterminated comment, else returns EXIT_SUCCESS. */
 int main(void) {
-    /* Uses the dfa approach. The initial state of the program */
     enum Statetype state = NORMAL;
-    /* character variable that maintains current DFA char*/
     int c;
     /* counts the total number of newlines */
     int counter = 0;
